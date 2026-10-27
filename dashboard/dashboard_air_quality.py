@@ -15,7 +15,8 @@ from matplotlib.patches import Patch
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv('main_data.csv.gz')
+    file_path = Path(__file__).parent / "main_data.csv.gz"
+    df = pd.read_csv(file_path)
     return df
 
 df = load_data()
