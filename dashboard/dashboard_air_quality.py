@@ -9,6 +9,16 @@ import streamlit as st
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Patch
 
+# -----------------------------------------------------------------------------
+# BACA DATA
+# -----------------------------------------------------------------------------
+
+@st.cache_data
+def load_data():
+    df = pd.read_csv('main_data.csv.gz')
+    return df
+
+df = load_data()
 
 # -----------------------------------------------------------------------------
 # 1. PENGATURAN HALAMAN & PALET WARNA
@@ -135,18 +145,7 @@ def section_title(label, title):
 
 
 # -----------------------------------------------------------------------------
-# 2. BACA DATA
-# -----------------------------------------------------------------------------
-
-@st.cache_data
-def load_data():
-    df = pd.read_csv('main_data.csv.gz')
-    return df
-
-df = load_data()
-
-# -----------------------------------------------------------------------------
-# 3. SIDEBAR & FILTER
+# 2. SIDEBAR & FILTER
 # -----------------------------------------------------------------------------
 year_options = sorted(df["year"].dropna().unique().tolist())
 station_options = sorted(df["station"].dropna().astype(str).unique().tolist())
@@ -183,7 +182,7 @@ valid_df = filtered_df.dropna(subset=["PM2.5"]).copy()
 
 
 # -----------------------------------------------------------------------------
-# 4. HEADER & KARTU KPI
+# 3. HEADER & KARTU KPI
 # -----------------------------------------------------------------------------
 st.markdown(
     """
@@ -218,7 +217,7 @@ st.caption(
 st.write("")
 
 # -----------------------------------------------------------------------------
-# 5. TIGA TAB ANALISIS
+# 4. TIGA TAB ANALISIS
 # -----------------------------------------------------------------------------
 tab1, tab2, tab3 = st.tabs([
     "📈 Tren PM2.5",
